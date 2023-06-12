@@ -1,0 +1,15 @@
+<div *ngIf="alert$ | async as alert" class="alert-body position-fixed end-0 {{alert.type}} d-flex border_r10 align-items-center justify-content-center z-index-100000" [@fadeInOut] (click)="clearAlert()" #alert>
+  <div class="content-ico" >
+    <ng-container [ngSwitch]="alert.type">
+      <fa-icon [icon]="['fas', 'info-circle']" animation="shake" *ngSwitchCase="'info'"></fa-icon>
+      <fa-icon [icon]="['fas', 'check-circle']" animation="bounce" *ngSwitchCase="'success'"></fa-icon>
+      <fa-icon [icon]="['fas', 'exclamation-circle']" animation="fade" *ngSwitchCase="'danger'"></fa-icon>
+      <fa-icon [icon]="['fas', 'exclamation-triangle']" animation="fade" *ngSwitchCase="'warning'"></fa-icon>
+      <fa-icon [icon]="['fas', 'shield-blank']" animation="flip" *ngSwitchCase="'primary'"></fa-icon>
+      <fa-icon [icon]="['fas', 'cog']" animation="spin" *ngSwitchCase="'secundary'"></fa-icon>
+      <fa-icon [icon]="['fas', 'lightbulb']" animation="beat-fade" *ngSwitchCase="'light'"></fa-icon>
+      <fa-icon [icon]="['fas', 'circle']" *ngSwitchDefault></fa-icon>
+    </ng-container>
+  </div>
+  <div class="message">{{alert.message}}</div>
+</div>

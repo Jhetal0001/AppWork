@@ -1,6 +1,6 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Component } from '@angular/core';
+import { UsersService } from '../services/users.service';
+
 
 @Component({
   selector: 'app-home',
@@ -9,28 +9,22 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 })
 export class HomeComponent {
 
+  isSession = false;
+  constructor(
+    private usersService: UsersService
+    ) {
 
-  isSyncAnimated = true;
-  magicLevel!:any;
-  notification: number = 0;
-
-  input(event: any) {
-    this.magicLevel = (event.target as HTMLInputElement).value
   }
 
-  onClick(){
-    this.notification++
+  ngOnInit(): void {
+    this.usersService.user$.subscribe(data => {
+      if (data) {
+        this.isSession = true;
+      } else {
+        this.isSession = false;
+      }
+    })
   }
 
-  @ViewChild('host', { static: true, read: ViewContainerRef })
-  container!: ViewContainerRef;
-
-  createIcon() {
-    const componentRef = this.container.createComponent(FaIconComponent);
-    componentRef.instance.icon = faUser;
-    // Note that FaIconComponent.render() should be called to update the
-    // rendered SVG after setting/updating component inputs.
-    componentRef.instance.render();
-  }
 
 }

@@ -1,0 +1,285 @@
+<div class="container py-4">
+  <div class="row align-items-lg-stretch">
+    <div class="col-md-6 my-2">
+      <div class="p-2 bg-body-tertiary border rounded-3">
+        <div class="text-center"><h6>Lista Tareas</h6></div>
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active font_s14" id="nav-taskOpened-tab" data-bs-toggle="tab" data-bs-target="#nav-taskOpened" type="button" role="tab" aria-controls="nav-taskOpened" aria-selected="true"><fa-icon [icon]="['fas', 'clipboard-list']" size="xl"></fa-icon></button>
+            <button class="nav-link font_s14" id="nav-taskClosed-tab" data-bs-toggle="tab" data-bs-target="#nav-taskClosed" type="button" role="tab" aria-controls="nav-taskClosed" aria-selected="false"><fa-icon [icon]="['fas', 'clipboard-check']" size="xl"></fa-icon></button>
+            <button class="nav-link font_s14" id="nav-taskCompart-tab" data-bs-toggle="tab" data-bs-target="#nav-taskCompart" type="button" role="tab" aria-controls="nav-taskCompart" aria-selected="false"><fa-icon [icon]="['fas', 'people-group']" size="xl"></fa-icon></button>
+            <button class="nav-link font_s14" id="nav-taskReq-tab" data-bs-toggle="tab" data-bs-target="#nav-taskReq" type="button" role="tab" aria-controls="nav-taskReq" aria-selected="false"><fa-icon [icon]="['fas', 'briefcase']" size="xl"></fa-icon></button>
+            <!-- <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button> -->
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-taskOpened" role="tabpanel" aria-labelledby="nav-taskOpened-tab" tabindex="0">
+            <div class="d-flex flex-column flex-md-row gap-4 align-items-center justify-content-center w-100">
+              <div class="list-group content-task overflow-auto scrollTheme-light font_s12 w-100">
+                <a class="list-group-item align-items-center list-group-item-action py-2" aria-current="true" *ngIf="!listTaskOpened || listTaskOpened.length === 0">No hay tareas abiertas</a>
+                <div class="list-group-item align-items-center list-group-item-action d-flex py-2 controlHover" aria-current="true" *ngFor="let item of listTaskOpened">
+                  <div class="h-100 d-flex justify-content-center"><span class="fs-5 text-white bg-primary rounded-circle text-center" style="width: 30px; height: 30px;">{{item.task.hour}}</span></div>
+                  <div class="d-flex gap-2 justify-content-between mx-2 w-100">
+                    <div class="position-absolute d-flex top-0 mt-1 end-0 me-3">
+                      <div class="d-flex justify-content-center">
+                        <div type="button" class="text-success text-center px-2" title="Finalizar" (click)="finallyTask(item.task, item.id)"><fa-icon [icon]="['fas', 'check']"></fa-icon></div>
+                        <span class="vr"></span>
+                        <div type="button" class="text-danger text-center px-2" title="Borrar" (click)="deleteTask(item.id)"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></div>
+                      </div>
+                    <small class="opacity-50 text-nowrap">{{item.task.date | date}}</small>
+                    </div>
+                    <div>
+                      <h6 class="mb-0 mt-lg-2 mt-sm-2 mt-3 font_s14">{{item.task.title}}</h6>
+                      <p class="mb-0 opacity-75">{{item.task.activity}}</p>
+                    </div>
+                  </div>
+                  <div *ngFor="let userlist of listUsers" class="mt-2">
+                    <span *ngIf="item.task.id_collaborators?.includes(userlist.id)" class="m-auto me-0" [ngbPopover]="'Tarea compartida con: ' + (userlist.name.length > 5 ? userlist.name.slice(0, 12) : userlist.name) + '...'" popoverClass="popover" >
+                      <img class="rounded-circle " width="24" height="24" [src]="userlist.photoURL" alt="">
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-taskClosed" role="tabpanel" aria-labelledby="nav-taskClosed-tab" tabindex="0">
+            <div class="d-flex flex-column flex-md-row gap-4 align-items-center justify-content-center w-100">
+              <div class="list-group content-task overflow-auto scrollTheme-light font_s12 w-100">
+                <a class="list-group-item align-items-center list-group-item-action py-2" aria-current="true" *ngIf="!listTaskClosed || listTaskClosed.length === 0">No hay tareas cerradas</a>
+                <div class="list-group-item align-items-center list-group-item-action d-flex py-2 controlHover" aria-current="true" *ngFor="let item of listTaskClosed">
+                  <div class="h-100 d-flex justify-content-center"><span class="fs-5 text-white bg-primary rounded-circle text-center" style="width: 30px; height: 30px;">{{item.task.hour}}</span></div>
+                  <div class="d-flex gap-2 justify-content-between mx-2 w-100">
+                    <div class="position-absolute d-flex top-0 mt-1 end-0 me-3">
+                      <div class="d-flex justify-content-center">
+                        <div class="text-success text-center px-2">Finalizada</div>
+                      </div>
+                      <small class="opacity-50 text-nowrap">{{item.task.date | date}}</small>
+                    </div>
+                    <div>
+                      <h6 class="mb-0 mt-lg-2 mt-sm-2 mt-3 font_s14">{{item.task.title}}</h6>
+                      <p class="mb-0 opacity-75">{{item.task.activity}}</p>
+                    </div>
+                  </div>
+                  <div *ngFor="let userlist of listUsers" class="mt-2">
+                    <span *ngIf="item.task.id_collaborators?.includes(userlist.id)" class="m-auto me-0" [ngbPopover]="'Tarea compartida con: ' + (userlist.name.length > 5 ? userlist.name.slice(0, 12) : userlist.name) + '...'" popoverClass="popover" >
+                      <img class="rounded-circle " width="24" height="24" [src]="userlist.photoURL" alt="">
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-taskCompart" role="tabpanel" aria-labelledby="nav-taskCompart-tab" tabindex="0">
+            <div class="d-flex flex-column flex-md-row gap-4 align-items-center justify-content-center w-100">
+              <div class="list-group content-task overflow-auto scrollTheme-light font_s12 w-100">
+                <a class="list-group-item align-items-center list-group-item-action py-2" aria-current="true" *ngIf="!listTaskCompart || listTaskCompart.length === 0">No hay tareas Compartidas</a>
+                <div class="list-group-item align-items-center list-group-item-action d-flex py-2 controlHover" aria-current="true" *ngFor="let item of listTaskCompart">
+                  <div class="h-100 d-flex justify-content-center"><span class="fs-5 text-white bg-primary rounded-circle text-center" style="width: 30px; height: 30px;">{{item.task.hour}}</span></div>
+                  <div class="d-flex gap-2 justify-content-between mx-2 w-100">
+                    <div class="position-absolute d-flex top-0 mt-1 end-0 me-3">
+                      <div class="d-flex justify-content-center">
+                        <div *ngIf="!item.task.finally" class="text-primary text-center px-2">Abierta</div>
+                        <div *ngIf="item.task.finally" class="text-success text-center px-2">Finalizada</div>
+                      </div>
+                    <small class="opacity-50 text-nowrap">{{item.task.date | date}}</small>
+                    </div>
+                    <div>
+                      <h6 class="mb-0 mt-lg-2 mt-sm-2 mt-3 font_s14">{{item.task.title}}</h6>
+                      <p class="mb-0 opacity-75">{{item.task.activity}}</p>
+                    </div>
+                  </div>
+                  <div *ngFor="let userlist of listUsers" class="mt-2">
+                    <span *ngIf="item.task.id_autor === userlist.id && item.task.id_autor !== user" class="m-auto me-0" [ngbPopover]="'Tarea creada por: ' + (userlist.name.length > 5 ? userlist.name.slice(0, 12) : userlist.name) + '...'" popoverClass="popover" >
+                      <img class="rounded-circle " width="24" height="24" [src]="userlist.photoURL" alt="">
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-taskReq" role="tabpanel" aria-labelledby="nav-taskReq-tab" tabindex="0">
+            <div class="d-flex flex-column flex-md-row gap-4 align-items-center justify-content-center w-100">
+              <div class="list-group content-task overflow-auto scrollTheme-light font_s12 w-100">
+                <a class="list-group-item align-items-center list-group-item-action py-2" aria-current="true" *ngIf="!listTaskReq || listTaskReq.length === 0">No hay tareas de requisitos</a>
+                <div class="list-group-item align-items-center list-group-item-action d-flex py-2 controlHover" aria-current="true" *ngFor="let item of listTaskReq">
+                  <div class="h-100 d-flex justify-content-center"><span class="fs-5 text-white bg-primary rounded-circle text-center" style="width: 30px; height: 30px;">{{item.task.hour}}</span></div>
+                  <div class="d-flex gap-2 justify-content-between mx-2 w-100">
+                    <div class="position-absolute d-flex top-0 mt-1 end-0 me-3">
+                      <div class="d-flex justify-content-center">
+                        <div *ngIf="!item.task.finally" type="button" class="text-success text-center px-2" title="Finalizar" (click)="finallyTask(item.task, item.id)"><fa-icon [icon]="['fas', 'check']"></fa-icon></div>
+                        <span *ngIf="!item.task.finally" class="vr"></span>
+                        <div *ngIf="!item.task.finally" type="button" class="text-danger text-center px-2" title="Borrar" (click)="deleteTask(item.id)"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></div>
+                        <div *ngIf="item.task.finally" class="text-success text-center px-2">Finalizada</div>
+                      </div>
+                    <small class="opacity-50 text-nowrap">{{item.task.date | date}}</small>
+                    </div>
+                    <div>
+                      <h6 class="mb-0 mt-lg-2 mt-sm-2 mt-3 font_s14">{{item.task.title}}</h6>
+                      <p class="mb-0 opacity-75">{{item.task.activity}}</p>
+                    </div>
+                  </div>
+                  <div *ngFor="let userlist of listUsers" class="mt-2">
+                    <span *ngIf="item.task.id_autor === userlist.id && item.task.id_autor !== user" class="m-auto me-0" [ngbPopover]="'Tarea creada por: ' + (userlist.name.length > 5 ? userlist.name.slice(0, 12) : userlist.name) + '...'" popoverClass="popover" >
+                      <img class="rounded-circle " width="24" height="24" [src]="userlist.photoURL" alt="">
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>
+          <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 my-2">
+      <div class="p-2 bg-body-tertiary border rounded-3 position-relative">
+        <div class="text-center"><h6>Nueva Tarea</h6></div>
+        <form [ngClass]="isValidForm? 'was-validated': ''" [formGroup]="newTask" (ngSubmit)="saveTask()">
+          <div class="form-group position-absolute end-0 top-0 mt-1 me-3">
+            <span class="btn btn-sm py-0" [ngClass]="newTask.get('req')!.value? 'btn-primary' : 'btn-secondary'">
+              <label for="validationReq" class="font_s14 col-form-label-sm cursor_pointer p-0">Req</label>
+              <input type="checkbox" id="validationReq" class="d-none font_s14 size_input" aria-label="req-task" formControlName="req">
+            </span>
+          </div>
+          <div class="row gap-2">
+            <div class="col-md">
+              <div class="form-floating mb-3">
+                <input type="date" id="validationDate" class="form-control form-control-sm font_s14 size_input" aria-label="date-task" required formControlName="date">
+                <label for="validationDate" class="font_s14 col-form-label-sm">Fecha de la Tarea</label>
+                <div class="invalid-tooltip font_s10">Debe elegir la fecha de la tarea</div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-floating mb-3">
+                <input *ngIf="newTask.get('req')!.value" class="form-control form-control-sm size_input font_s14" id="actividad" aria-label="actividad" required formControlName="tipo_actividad" placeholder="Ingrese el nombre del req">
+                <select *ngIf="!newTask.get('req')!.value" class="form-select form-select-sm size_input font_s14" id="actividad" aria-label="actividad" required formControlName="tipo_actividad">
+                  <option value=""></option>
+                  <option value="{{activitie}}" *ngFor="let activitie of tipe_activities">{{activitie}}</option>
+                </select>
+                <label *ngIf="!newTask.get('req')!.value" for="actividad" class="col-form-label-sm">Tipo Actividad</label>
+                <label *ngIf="newTask.get('req')!.value" for="actividad" class="col-form-label-sm">Nombre del Requisito</label>
+                <div class="invalid-tooltip font_s10">Debe elegir el tipo de tarea</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-floating mb-3">
+            <textarea class="form-control font_s14 size_input scrollTheme-light" id="validationTextarea" placeholder="Required example textarea" required formControlName="actividad"></textarea>
+            <label for="validationTextarea" class="font_s14">Actividad Realizada</label>
+            <div class="invalid-tooltip font_s10">
+              Debe escribir la actividad que realizó.
+            </div>
+          </div>
+
+          <div class="row gap-1 mb-3">
+            <div class="col-auto">
+              <div class=" input-group input-group-sm form-check ps-0">
+                <label for="option1" class="input-group-text bg-primary-subtle font_s14 border-primary-subtle">Horas</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option1" autocomplete="off" required [value]="1" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option1">1</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option2" autocomplete="off" required [value]="2" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option2">2</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option3" autocomplete="off" required [value]="3" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option3">3</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option4" autocomplete="off" required [value]="4" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option4">4</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option5" autocomplete="off" required [value]="5" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option5">5</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option6" autocomplete="off" required [value]="6" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option6">6</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option7" autocomplete="off" required [value]="7" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option7">7</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option8" autocomplete="off" required [value]="8" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary " for="option8">8</label>
+
+                <input type="radio" class="btn-check" name="horas" id="option9" autocomplete="off" required [value]="9" formControlName="horas">
+                <label class="input-group-text btn btn-outline-primary rounded-end" for="option9">9</label>
+
+                <div class="invalid-tooltip font_s10">Debe elegir la cantidad de horas.</div>
+
+              </div>
+            </div>
+            <div *ngIf="!newTask.get('req')!.value" class="col-auto">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-shrink-0 dropdown">
+                  <a class="d-block link-body-emphasis text-primary-emphasis bg-primary-subtle px-2 py-1 rounded-pill text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                    <fa-icon [icon]="['fas', 'people-group']"></fa-icon>
+                  </a>
+                  <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px" data-bs-theme="light">
+                    <form class="p-2 mb-2 bg-body-tertiary border-bottom">
+                      <input type="search" class="form-control" autocomplete="false" placeholder="Type to filter..." name="searchInput" [(ngModel)]="filtro" (input)="aplicarFiltro()">
+                    </form>
+                    <ul class="list-unstyled mb-0">
+                      <li *ngFor="let user of listaFiltrada; let i = index" (click)="addUser(user)">
+                        <a class="dropdown-item d-flex align-items-center gap-2 py-2 cursor_pointer" *ngIf="isUserExcluded(user.id)">
+                          <span class="d-inline-block {{bgColors[i % bgColors.length]}} rounded-circle p-1" *ngIf="isUserExcluded(user.id)"></span>
+                          {{user.name}}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col d-flex flex-wrap justify-content-end" *ngIf="listUsersAdd && listUsersAdd.length > 0">
+              <div class="col-auto pt-1" *ngFor="let user of listUsersAdd">
+                <span class="badge d-flex align-items-center me-1 p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+                  <img class="rounded-circle me-1" width="24" height="24" [src]="user.photoURL" alt="">
+                  {{user.name.length > 5 ? user.name.slice(0, 5) : user.name}}
+                  <span class="vr mx-2"></span>
+                  <a class="text-white cursor_pointer text-primary-emphasis" (click)="removeUser(user)"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></a>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 mt-4 d-flex justify-content-end">
+            <button class="btn btn-sm btn-primary" type="submit">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6 my-2">
+      <div class="d-flex flex-column justify-content-center flex-wrap align-items-center bg-body-tertiary border rounded-3">
+        <div class="input-group-sm d-flex mx-auto me-0">
+          <app-datepicker (dateRangeSelected)="handleDateRangeSelected($event)"></app-datepicker>
+        </div>
+
+        <div class="col-auto" style="max-width: 300px; height: auto;">
+          <canvas class="my-4" id="mesChart"></canvas>
+        </div>
+        <!-- <div class="col-auto" style="max-width: 250px; height: auto;">
+          <canvas class="my-4" id="semChart"></canvas>
+        </div> -->
+      </div>
+    </div>
+    <div class="col-md-6 my-2">
+      <div class="d-flex justify-content-center align-items-center bg-body-tertiary border rounded-3">
+        <div class="col p-2" style="max-width: 500px; min-height: 300px;">
+          <canvas class="my-4" id="semGroupChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

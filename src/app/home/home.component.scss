@@ -1,0 +1,10 @@
+.content {
+  width: 100%;
+  min-height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+}
+.space_navbar {
+  padding-left: 2.5rem;
+}

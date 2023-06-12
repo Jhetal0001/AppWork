@@ -1,0 +1,56 @@
+<div *ngIf="isSession" class="position-fixed h-100 top-0 z-index-10 border-end">
+  <div (mouseleave)="navInfo = !navInfo" (mouseenter)="navInfo = !navInfo" class="d-flex flex-column h-100 flex-shrink-0 py-3 text-bg-dark" [@navbar]="navInfo">
+    <a href="/" class="d-flex text-white px-2 pt-1 text-decoration-none overflow-hidden">
+      <fa-icon class="mx-auto" [ngClass]="{'w-25 ms-2 me-2': navInfo}" [icon]="['fas','house-laptop']" size="lg"></fa-icon>
+      <span *ngIf="navInfo" class="fs-6 ps-2">Group</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills nav-flush flex-column mb-auto overflow-hidden" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a [routerLink]="['/home/']" class="d-flex justify-content-start text-white px-2 nav-link active py-3 border-bottom rounded-0" aria-current="page" title="Home" data-bs-placement="right" id="pills-home-tab" data-bs-toggle="pill" role="tab" aria-controls="v-pills-home" aria-selected="true">
+          <fa-icon class="mx-auto" [ngClass]="{'w-25 ms-2 me-2': navInfo}" [icon]="['fas', 'house']" size="1x"></fa-icon>
+          <span *ngIf="navInfo" >House</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['gestionar']" class="d-flex justify-content-start text-white px-2 nav-link py-3 border-bottom rounded-0" id="pills-gestionar-tab" data-bs-toggle="pill" role="tab" aria-controls="v-pills-gestionar" aria-selected="true">
+          <fa-icon class="mx-auto" [ngClass]="{'w-25 ms-2 me-2': navInfo}" [icon]="['fas', 'calendar-days']" size="1x"></fa-icon>
+          <span *ngIf="navInfo" >Gestionar</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['dashboard']" class="d-flex justify-content-start text-white px-2 nav-link py-3 border-bottom rounded-0" aria-current="page" id="pills-chart-tab" data-bs-toggle="pill" role="tab" aria-controls="v-pills-chart" aria-selected="false">
+          <fa-icon class="mx-auto" [ngClass]="{'w-25 ms-2 me-2': navInfo}" [icon]="['fas', 'chart-pie']" size="1x"></fa-icon>
+          <span *ngIf="navInfo" >Visualizar</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['chats']" class="d-flex justify-content-start text-white px-2 nav-link py-3 border-bottom rounded-0" id="pills-chat-tab" data-bs-toggle="pill" role="tab" aria-controls="v-pills-chat" aria-selected="true">
+          <fa-icon class="mx-auto" [ngClass]="{'w-25 ms-2 me-2': navInfo}" [icon]="['fas', 'comments']" size="1x"></fa-icon>
+          <span *ngIf="navInfo" >Chat</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['users']" class="d-flex justify-content-start text-white px-2 nav-link py-3 border-bottom rounded-0" id="pills-user-tab" data-bs-toggle="pill" role="tab" aria-controls="v-pills-user" aria-selected="true">
+          <fa-icon class="mx-auto" [ngClass]="{'w-25 ms-2 me-2': navInfo}" [icon]="['fas', 'circle-user']" size="1x"></fa-icon>
+          <span *ngIf="navInfo" >Users</span>
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropup-center">
+      <a href="#" class="d-flex align-items-center justify-content-center text-white text-decoration-none" [ngClass]="{'dropdown-toggle': navInfo}" data-bs-toggle="dropdown" aria-expanded="false">
+        <img [src]="imgProfile" alt="" width="32" height="32" class="rounded-circle">
+        <span *ngIf="navInfo"  class="ps-2"><strong>{{nameProfile}}</strong></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+        <li><a class="dropdown-item" href="#">New project...</a></li>
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" (click)="logOut()">Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>

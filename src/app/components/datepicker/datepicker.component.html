@@ -1,0 +1,50 @@
+<form class="row row-cols-sm-auto">
+	<div class="col-12">
+		<div class="dp-hidden position-absolute">
+			<div class="input-group">
+				<input
+					name="datepicker"
+					class="form-control"
+					ngbDatepicker
+					#datepicker="ngbDatepicker"
+					[autoClose]="'outside'"
+					(dateSelect)="onDateSelection($event)"
+					[displayMonths]="1"
+					[dayTemplate]="t"
+					outsideDays="hidden"
+					[startDate]="fromDate!"
+					tabindex="-1"
+				/>
+				<ng-template #t let-date let-focused="focused">
+					<span
+						class="custom-day"
+						[class.focused]="focused"
+						[class.range]="isRange(date)"
+						[class.faded]="isHovered(date) || isInside(date)"
+						(mouseenter)="hoveredDate = date"
+						(mouseleave)="hoveredDate = null"
+					>
+						{{ date.day }}
+					</span>
+				</ng-template>
+			</div>
+		</div>
+		<div class="input-group">
+      <label class="input-group-text" for="dpFromDate"><b>{{(formatter.format(fromDate) | date)}}</b> {{' / '}} <b>{{(formatter.format(toDate) | date)}}</b></label>
+			<!-- <input
+				#dpFromDate
+				class="form-control"
+				placeholder="yyyy-mm-dd"
+				name="dpFromDate"
+				[value]="formatter.format(fromDate) + ' a ' + formatter.format(toDate)"
+				(input)="fromDate = validateInput(fromDate, dpFromDate.value)"
+        (click)="datepicker.toggle()"
+        readonly
+			/> -->
+			<button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button">
+        <fa-icon [icon]="['fas', 'calendar-days']"></fa-icon>
+      </button>
+		</div>
+	</div>
+</form>
+

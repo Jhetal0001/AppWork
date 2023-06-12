@@ -1,0 +1,15 @@
+.content-task {
+  max-height: 250px;
+}
+.size_input {
+  height: 52px;
+}
+.controlHover {
+  & .buttonHover {
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+  }
+  &:hover .buttonHover{
+    opacity: 1;
+  }
+}

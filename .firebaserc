@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "appwork-d1226": {
+      "hosting": {
+        "AppWork": [
+          "app-work"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "appwork-d1226"
+  }
+}

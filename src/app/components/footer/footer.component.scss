@@ -1,0 +1,13 @@
+.footer {
+  height: 80px;
+  padding: 20px;
+  & h3 {
+    width: 60%;
+  }
+  & a {
+    width: 10%;
+    &:visited {
+      color: var(--colorfontone);
+    }
+  }
+}

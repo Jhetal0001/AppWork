@@ -1,0 +1,52 @@
+<header class="d-flex position-fixed border-bottom w-100 align-items-center justify-content-center text-bg-dark z-index-10" [ngClass]="isSession? 'max-height': ''">
+  <div class="container py-1">
+    <div *ngIf="!isSession" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="/" class="d-flex align-items-center me-2 mb-lg-0 text-white text-decoration-none">
+        <fa-icon [icon]="['fas','house-laptop']" size="lg"></fa-icon>
+      </a>
+
+      <ul class="nav col-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+        <!-- <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li> -->
+        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+      </ul>
+
+      <div class="text-end">
+        <button type="button" class="btn btn-sm btn-outline-light me-2" (click)="modalSignUp()">Login</button>
+        <!-- <button type="button" class="btn btn-sm btn-warning">Sign-up</button> -->
+      </div>
+    </div>
+
+    <div *ngIf="isSession" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <!-- <a href="/" class="d-flex align-items-center me-2 mb-2 mb-lg-0 text-white text-decoration-none">
+        <fa-icon [icon]="['fas','house-laptop']" size="lg"></fa-icon>
+      </a> -->
+
+      <ul class="nav col-12 col-sm-auto me-sm-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 text-secondary">Group Quipux</a></li>
+        <!-- <li><a href="#" class="nav-link px-2 text-white">Gestionar</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li> -->
+        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+      </ul>
+
+      <div class="d-flex align-items-center">
+        <div class="flex-shrink-0 dropdown">
+          <a href="#" class="d-block link-body-emphasis text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img [src]="imgProfile" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" (click)="logOut()">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btn btn-outline-light rounded-circle me-3 py-1 px-2 position-absolute top-50 end-0 translate-middle-y" [ngClass]="{'active': theme == 'dark'}" (click)="toggleTheme()">
+    <fa-icon [icon]="['fas','moon']" size="xl"></fa-icon>
+  </div>
+</header>
