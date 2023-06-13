@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, deleteDoc, doc, onSnapshot, or, query, setDoc, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, or, query, setDoc, where } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
 import { Task, TaskList, TaskX } from '../models/task.model';
 
@@ -10,6 +10,9 @@ export class TaskService {
 
   private taskListSubject = new Subject<TaskList>();
   taskList$ = this.taskListSubject.asObservable();
+
+  private taskListAllSubject = new Subject<TaskList>();
+  taskListAll$ = this.taskListAllSubject.asObservable();
 
   constructor(private fb: Firestore) { }
 
@@ -28,12 +31,6 @@ export class TaskService {
   getTaskList(id: string) {
     const q = query(collection(this.fb, 'app-work', 'task', 'newTask'), or(where('id_autor', '==', id), where("id_collaborators", "array-contains", id)));
     let taskList: TaskList = [];
-    // getDocs(q).then(data => {
-    //   console.log(data.docChanges(), " => ", data.docs);
-    //   data.forEach((doc) => {
-    //     console.log(doc.id, " => ", doc.data());
-    //   });
-    // })
 
     return onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
@@ -55,6 +52,12 @@ export class TaskService {
       this.taskListSubject.next(taskList);
     });
 
+
+  }
+
+  getTaskListAll() {
+    const q = query(collection(this.fb, 'app-work', 'task', 'newTask'), where('finally', '==', true));
+    return getDocs(q);
 
   }
 

@@ -48,6 +48,7 @@ export class SignupComponent implements OnInit {
         if (userResult.email) {this.usersService.checkPassword(userResult.email);}
         this.activeModal.dismiss();
         this.router.navigate(['gestionar']);
+        this.UTILS.showAlert('Si es tu primer ingreso a la plataforma, por favor ve al email y asigna una contraseña de inicio de sesión!', 'info');
       })
       .catch((error) => {
         this.UTILS.showAlert(error.message, 'danger');

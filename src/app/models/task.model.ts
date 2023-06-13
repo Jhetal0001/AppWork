@@ -21,6 +21,10 @@ export interface HourChart {
   opens: number
   missing: number
 }
+export interface UserTask {
+  user: string
+  task:Task[]
+}
 //Example
 //   activity: "Se apoya a compañero para finalizar el requisito"
 //   date: "12/02/2023"

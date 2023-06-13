@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { Chart, ChartOptions, elements } from 'chart.js/auto';
-import { HourChart, Task, TaskList } from 'src/app/models/task.model';
+import { HourChart, Task, TaskList, TaskX, UserTask } from 'src/app/models/task.model';
 import { UsersList } from 'src/app/models/user.model';
 import { TaskService } from 'src/app/services/task.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -20,7 +20,6 @@ export class GestionarComponent implements OnInit{
   newTask!: FormGroup;
   isValidForm = false;
   mesChart: any;
-  semChart:any;
   semGroupChart: any;
   user!: string;
   listUsers: Array<UsersList>;
@@ -35,16 +34,11 @@ export class GestionarComponent implements OnInit{
   listTaskCompart: TaskList = [];
   listTaskReq: TaskList = [];
   hoursMont!: HourChart ;
-  hoursWeek!: HourChart ;
+  usersMontAll: any = [];
   chartMont: number[] = [];
-  chartWeek: number[] = [];
+  chartMontAll: number[] = [];
   startDate: string =  new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().substring(0, 10);
   endDate: string = new Date().toISOString().substring(0, 10);
-  selectedRange!: string;
-
-  // startDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-  // endDate: Date = new Date();
-
 
   constructor(private formBuilder: FormBuilder, private usersService: UsersService, private taskService: TaskService, private formatter: NgbDateParserFormatter, private UTIL: UtilsService){
     this.newTask = this.formBuilder.group({
@@ -130,6 +124,38 @@ export class GestionarComponent implements OnInit{
         .filter(task => new Date(task.task.date).getMonth() === currentMonth) // Filtrar por mes
         .reduce((total, task) => total + task.task.hour, 0) // Sumar las horas restantes
     };
+  }
+
+  gestionTaskAll(listTask: TaskList) {
+
+    const userTasks: any = [];
+    this.listUsers.map(user => {
+      listTask.forEach((task) => {
+        if(task.task.id_autor === user.id || task.task.id_collaborators?.includes(user.id)){
+          userTasks.push({user: user , task: task.task});
+        }
+      })
+    })
+    const userSummary: { userName: string, id_user: string, totalHours: number }[] = [];
+    userTasks.forEach((task: any) => {
+      const existingUser = userSummary.find((user) => user.id_user === task.user.id);
+
+      if (existingUser) {
+        existingUser.totalHours += task.task.hour;
+      } else {
+        userSummary.push({ userName: task.user.name, id_user: task.user.id, totalHours: task.task.hour });
+      }
+    });
+    userSummary.forEach((userTask, index) => {
+      this.usersMontAll.push({
+        animation: {
+          delay: index*200,
+        },
+        label: userTask.userName.slice(0, 5),
+        borderRadius: 5,
+        data: [userTask.totalHours],
+      })
+    });
   }
 
   finallyTask(task: Task, id: string) {
@@ -239,39 +265,18 @@ export class GestionarComponent implements OnInit{
     this.semGroupChart = new Chart('semGroupChart', {
       type: 'bar',
       data: {
-        labels: ['Monday','Tuesday','Wednesday','Thursday','Friday'],
-        datasets: [{
-          animation: {
-            delay: 300,
-          },
-          label: 'Sebas',
-          borderRadius: 5,
-          data: [ 9, 5, 9, 5, 9 ],
-        },{
-          animation: {
-            delay: 500,
-          },
-          label: 'Mate',
-          borderRadius: 5,
-          data: [ 9, 7, 8, 4, 9 ],
-        },{
-          animation: {
-            delay: 700,
-          },
-          label: 'Jhon',
-          borderRadius: 5,
-          data: [ 9, 9, 9, 9, 9 ],
-        }]
+        labels: ['Month'],
+        datasets: this.usersMontAll
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
           y: {
-            suggestedMin: 9,
-            suggestedMax: 10,
+            suggestedMin: 189,
+            suggestedMax: 190,
             ticks: {
-              stepSize: 1,
+              stepSize: 10,
             },
           }
         },
@@ -286,7 +291,7 @@ export class GestionarComponent implements OnInit{
           },
           title: {
             display: true,
-            text: 'Semanal Group',
+            text: 'Mes Group',
             color: '#25f',
             font: {
               size: 20,
@@ -323,6 +328,27 @@ export class GestionarComponent implements OnInit{
         this.gestionTask(taskDatePaser);
         this.chartMont = [this.hoursMont.finallys,this.hoursMont.opens,this.hoursMont.missing]
         this.charts()
+      }
+    })
+    this.taskService.getTaskListAll().then(taskListAll => {
+      if(taskListAll) {
+        const taskListAllArray: TaskList = [];
+        taskListAll.forEach(data => {
+          const taskID = data.id;
+          const task: TaskX = {id: taskID, task: (data.data() as Task)}
+          taskListAllArray.push(task as TaskX)
+        })
+        const taskDatePaser = taskListAllArray.map(task => {
+          task.task.date = moment(task.task.date).toDate();
+          return task;
+        })
+        taskDatePaser.sort((a, b) => {
+          const fechaA = a.task.date as Date;
+          const fechaB = b.task.date as Date;
+          return fechaB.getTime() - fechaA.getTime();
+        });
+        console.log(taskDatePaser)
+        this.gestionTaskAll(taskDatePaser);
       }
     })
   }
