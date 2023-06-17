@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -12,7 +13,15 @@ import { UtilsService } from 'src/app/services/utils.service';
 @Component({
   selector: 'app-gestionar',
   templateUrl: './gestionar.component.html',
-  styleUrls: ['./gestionar.component.scss']
+  styleUrls: ['./gestionar.component.scss'],
+  animations: [
+    trigger('init', [
+      state('void', style({opacity: 0})),
+      transition('void <-> *', [
+        animate('300ms', style({opacity: 1}))
+      ])
+    ])
+  ]
 })
 export class GestionarComponent implements OnInit{
 

@@ -1,4 +1,4 @@
-<div class="container w-100 px-4 py-5" id="featured-3">
+<div class="container w-100 px-4 py-5" id="featured-3" @init>
   <h2 class="pb-2 border-bottom">Crea tus tareas!</h2>
   <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
     <div class="feature col">
@@ -7,7 +7,7 @@
       </div>
       <h3 class="fs-2 text-body-emphasis">Crear</h3>
       <p>Permite a los usuarios registrar y organizar sus tareas de manera efectiva, estableciendo un punto de partida claro para el seguimiento y la gestión de las mismas.</p>
-      <a href="#" class="icon-link">
+      <a [routerLink]="['gestionar']" class="icon-link">
         Nueva tarea
         <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>
       </a>
@@ -18,7 +18,7 @@
       </div>
       <h3 class="fs-2 text-body-emphasis">Guardado</h3>
       <p>Almacena de forma segura la información de las tareas, para poder acceder a ellos posteriormente y mantener un registro histórico las actualizaciones realizadas.</p>
-      <a href="#" class="icon-link">
+      <a [routerLink]="['gestionar']" class="icon-link">
         Historico de tareas
         <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>
       </a>
@@ -37,7 +37,7 @@
       </div>
       <h3 class="fs-2 text-body-emphasis">Seguimiento</h3>
       <p>Monitorea y supervisa de cerca el progreso de las tareas, manteniendo un registro de los avances realizados.</p>
-      <a href="#" class="icon-link">
+      <a [routerLink]="['gestionar']" class="icon-link">
         Gestionar tarea
         <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>
       </a>
@@ -48,7 +48,7 @@
       </div>
       <h3 class="fs-2 text-body-emphasis">Visualización</h3>
       <p>Representa gráficamente de manera clara y comprensible la información sobre el estado y el progreso de las tareas, brindando una visión general intuitiva.</p>
-      <a href="#" class="icon-link">
+      <a [routerLink]="['gestionar']" class="icon-link">
         Visualizar tareas
         <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>
       </a>
@@ -59,7 +59,7 @@
       </div>
       <h3 class="fs-2 text-body-emphasis">Comparte</h3>
       <p>Comparte las tareas asignadas con otros colaboradores, facilitando la colaboración y el seguimiento conjunto del progreso.</p>
-      <a href="#" class="icon-link">
+      <a [routerLink]="['gestionar']" class="icon-link">
         Compartir Tareas
         <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon>
       </a>

@@ -1,14 +1,14 @@
-<div class="container py-4">
+<div class="container py-4" @init>
   <div class="row align-items-lg-stretch">
     <div class="col-md-6 my-2">
       <div class="p-2 bg-body-tertiary border rounded-3">
         <div class="text-center"><h6>Lista Tareas</h6></div>
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active font_s14" id="nav-taskOpened-tab" data-bs-toggle="tab" data-bs-target="#nav-taskOpened" type="button" role="tab" aria-controls="nav-taskOpened" aria-selected="true"><fa-icon [icon]="['fas', 'clipboard-list']" size="xl"></fa-icon></button>
-            <button class="nav-link font_s14" id="nav-taskClosed-tab" data-bs-toggle="tab" data-bs-target="#nav-taskClosed" type="button" role="tab" aria-controls="nav-taskClosed" aria-selected="false"><fa-icon [icon]="['fas', 'clipboard-check']" size="xl"></fa-icon></button>
-            <button class="nav-link font_s14" id="nav-taskCompart-tab" data-bs-toggle="tab" data-bs-target="#nav-taskCompart" type="button" role="tab" aria-controls="nav-taskCompart" aria-selected="false"><fa-icon [icon]="['fas', 'people-group']" size="xl"></fa-icon></button>
-            <button class="nav-link font_s14" id="nav-taskReq-tab" data-bs-toggle="tab" data-bs-target="#nav-taskReq" type="button" role="tab" aria-controls="nav-taskReq" aria-selected="false"><fa-icon [icon]="['fas', 'briefcase']" size="xl"></fa-icon></button>
+            <button class="nav-link active font_s14" ngbTooltip="Abiertas" placement="top" id="nav-taskOpened-tab" data-bs-toggle="tab" data-bs-target="#nav-taskOpened" type="button" role="tab" aria-controls="nav-taskOpened" aria-selected="true"><fa-icon [icon]="['fas', 'clipboard-list']" size="xl"></fa-icon></button>
+            <button class="nav-link font_s14" ngbTooltip="Cerradas" placement="top" id="nav-taskClosed-tab" data-bs-toggle="tab" data-bs-target="#nav-taskClosed" type="button" role="tab" aria-controls="nav-taskClosed" aria-selected="false"><fa-icon [icon]="['fas', 'clipboard-check']" size="xl"></fa-icon></button>
+            <button class="nav-link font_s14" ngbTooltip="Compartidas" placement="top" id="nav-taskCompart-tab" data-bs-toggle="tab" data-bs-target="#nav-taskCompart" type="button" role="tab" aria-controls="nav-taskCompart" aria-selected="false"><fa-icon [icon]="['fas', 'people-group']" size="xl"></fa-icon></button>
+            <button class="nav-link font_s14" ngbTooltip="Requisitos" placement="top" id="nav-taskReq-tab" data-bs-toggle="tab" data-bs-target="#nav-taskReq" type="button" role="tab" aria-controls="nav-taskReq" aria-selected="false"><fa-icon [icon]="['fas', 'briefcase']" size="xl"></fa-icon></button>
             <!-- <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button> -->
           </div>
         </nav>
